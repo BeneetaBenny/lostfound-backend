@@ -7,9 +7,10 @@ const app = express();
 app.use(cors({ origin: true }));
 app.use(bodyParser.json({ limit: '10mb' })); // allow base64 images
 
-const MONGO = process.env.MONGO_URI || 'mongodb://localhost:27017/cc_lostfound';
+// Use the MONGODB_URI environment variable from Render, fallback to local MongoDB
+const MONGO = process.env.MONGODB_URI || 'mongodb://localhost:27017/cc_lostfound';
 mongoose.connect(MONGO, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(()=> console.log('MongoDB connected'))
+  .then(() => console.log('MongoDB connected'))
   .catch(err => {
     console.error('MongoDB connection error:', err.message);
     process.exit(1);
@@ -75,4 +76,4 @@ app.post('/items/:id/claim', async (req,res) => {
 });
 
 const PORT = process.env.PORT || 8080;
-app.listen(PORT, ()=> console.log('Server listening on', PORT));
+app.listen(PORT, () => console.log('Server listening on', PORT));
